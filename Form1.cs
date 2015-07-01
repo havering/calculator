@@ -15,7 +15,7 @@ namespace Calculator
     {
         Queue<int> current = new Queue<int>();    // to hold values being input one by one
         Queue<int> result = new Queue<int>();       // holds only one value, the running total
-        Stack<string> signs = new Stack<string>();      // to hold which sign is being used
+        Queue<string> signs = new Queue<string>();      // to hold which sign is being used
         
         public Form1()
         {
@@ -31,12 +31,59 @@ namespace Calculator
         {
             output.Text += "1";
             current.Enqueue(1);
+
+            //// if there is already a number in result, it needs to be updated with new action being performed
+            //if (result.Count > 0)
+            //{
+            //    string ops = signs.Dequeue();
+            //    int holding = result.Dequeue();
+
+            //    if (ops == "+")
+            //    {
+            //        result.Enqueue((holding + 1));
+            //    }
+            //    if (ops == "-")
+            //    {
+            //        result.Enqueue((holding - 1));
+            //    }
+            //    if (ops == "*")
+            //    {
+            //        result.Enqueue((holding * 1));
+            //    }
+            //    if (ops == "/")
+            //    {
+            //        result.Enqueue((holding / 1));
+            //    }
+            //}
         }
 
         private void twoButton_Click(object sender, EventArgs e)
         {
             output.Text += "2";
             current.Enqueue(2);
+
+            //if (result.Count > 0)
+            //{
+            //    string ops = signs.Dequeue();
+            //    int holding = result.Dequeue();
+
+            //    if (ops == "+")
+            //    {
+            //        result.Enqueue((holding + 2));
+            //    }
+            //    if (ops == "-")
+            //    {
+            //        result.Enqueue((holding - 1));
+            //    }
+            //    if (ops == "*")
+            //    {
+            //        result.Enqueue((holding * 1));
+            //    }
+            //    if (ops == "/")
+            //    {
+            //        result.Enqueue((holding / 1));
+            //    }
+            //}
         }
 
         private void threeButton_Click(object sender, EventArgs e)
@@ -90,7 +137,7 @@ namespace Calculator
         private void addButton_Click(object sender, EventArgs e)
         {
             output.Text += " + ";
-            signs.Push("+");
+            signs.Enqueue("+");
 
             // if a calculation has already been made and result has something
             // for either statement, the total of all the numbers held in current need to be strung together
@@ -108,10 +155,37 @@ namespace Calculator
 
                 int res = result.Dequeue(); // don't need to empty queue because only one value is being added and removed at a time
 
-                int total = first + res;
+                // figure out what the last operation was and perform it on the two numbers being held by res and first
+                // this makes sure the running total in result is correct
+                string ops = signs.Dequeue();
 
-                result.Enqueue(total);     // new total sent to result
+                if (ops == "+")
+                {
+                    result.Enqueue((res + first));
+                }
+                if (ops == "-")
+                {
+                    result.Enqueue((res - first));
+                }
+                if (ops == "*")
+                {
+                    result.Enqueue((res * first));
+                }
+                if (ops == "/")
+                {
+                    // handle divide by zero errors
+                    if (first == 0) {
+                        output.Text = "Error! You cannot divide by zero.";
+                        result.Clear();
+                        signs.Clear();
+                        current.Clear();
+                    }
+                    else {
+                        result.Enqueue((res / first));
+                    }
+                }
             }
+            
             else
             {
                 string received = "";
@@ -131,10 +205,8 @@ namespace Calculator
         private void minButton_Click(object sender, EventArgs e)
         {
             output.Text += " - ";
-            signs.Push("-");
+            signs.Enqueue("-");
 
-            // if a calculation has already been made and result has something
-            // for either statement, the total of all the numbers held in current need to be strung together
             if (result.Count > 0)
             {
                 string received = "";
@@ -143,15 +215,39 @@ namespace Calculator
                     int getter = current.Dequeue();
                     received += getter.ToString();
                 }
-                // now there is a string of the numbers in order
-                // convert it back to an int
+
                 int first = Convert.ToInt32(received);
 
-                int res = result.Dequeue(); // don't need to empty queue because only one value is being added and removed at a time
+                int res = result.Dequeue(); 
+                string ops = signs.Dequeue();
 
-                int total = first - res;
-
-                result.Enqueue(total);     // new total sent to result
+                if (ops == "+")
+                {
+                    result.Enqueue((res + first));
+                }
+                if (ops == "-")
+                {
+                    result.Enqueue((res - first));
+                }
+                if (ops == "*")
+                {
+                    result.Enqueue((res * first));
+                }
+                if (ops == "/")
+                {
+                    // handle divide by zero errors
+                    if (first == 0)
+                    {
+                        output.Text = "Error! You cannot divide by zero.";
+                        result.Clear();
+                        signs.Clear();
+                        current.Clear();
+                    }
+                    else
+                    {
+                        result.Enqueue((res / first));
+                    }
+                }
             }
             else
             {
@@ -172,6 +268,64 @@ namespace Calculator
         private void multButton_Click(object sender, EventArgs e)
         {
             output.Text += " * ";
+            signs.Enqueue("*");
+
+            if (result.Count > 0)
+            {
+                string received = "";
+                while (current.Count != 0)
+                {
+                    int getter = current.Dequeue();
+                    received += getter.ToString();
+                }
+
+                int first = Convert.ToInt32(received);
+
+                int res = result.Dequeue(); 
+                string ops = signs.Dequeue();
+
+                if (ops == "+")
+                {
+                    result.Enqueue((res + first));
+                }
+                if (ops == "-")
+                {
+                    result.Enqueue((res - first));
+                }
+                if (ops == "*")
+                {
+                    result.Enqueue((res * first));
+                }
+                if (ops == "/")
+                {
+                    // handle divide by zero errors
+                    if (first == 0)
+                    {
+                        output.Text = "Error! You cannot divide by zero.";
+                        result.Clear();
+                        signs.Clear();
+                        current.Clear();
+                    }
+                    else
+                    {
+                        result.Enqueue((res / first));
+                    }
+                }
+            }
+            else
+            {
+                string received = "";
+
+                while (current.Count != 0)
+                {
+                    int getter = current.Dequeue();
+                    received += getter.ToString();
+                }
+
+                int first = Convert.ToInt32(received);
+
+                result.Enqueue(first);
+            }
         }
 
         private void clearButton_Click(object sender, EventArgs e)
@@ -186,7 +340,65 @@ namespace Calculator
 
         private void divButton_Click(object sender, EventArgs e)
         {
-            output.Text = "/";
+            output.Text = " / ";
+            signs.Enqueue("/");
+
+            if (result.Count > 0)
+            {
+                string received = "";
+                while (current.Count != 0)
+                {
+                    int getter = current.Dequeue();
+                    received += getter.ToString();
+                }
+
+                int first = Convert.ToInt32(received);
+
+                int res = result.Dequeue(); 
+                string ops = signs.Dequeue();
+
+                if (ops == "+")
+                {
+                    result.Enqueue((res + first));
+                }
+                if (ops == "-")
+                {
+                    result.Enqueue((res - first));
+                }
+                if (ops == "*")
+                {
+                    result.Enqueue((res * first));
+                }
+                if (ops == "/")
+                {
+                    // handle divide by zero errors
+                    if (first == 0)
+                    {
+                        output.Text = "Error! You cannot divide by zero.";
+                        result.Clear();
+                        signs.Clear();
+                        current.Clear();
+                    }
+                    else
+                    {
+                        result.Enqueue((res / first));
+                    }
+                }
+            }
+            else
+            {
+                string received = "";
+
+                while (current.Count != 0)
+                {
+                    int getter = current.Dequeue();
+                    received += getter.ToString();
+                }
+
+                int first = Convert.ToInt32(received);
+
+                result.Enqueue(first);
+            }
         }
 
         private void equalButton_Click(object sender, EventArgs e)
@@ -206,7 +418,7 @@ namespace Calculator
 
                 int lastNum = Convert.ToInt32(received);
 
-                string sign = signs.Pop();
+                string sign = signs.Dequeue();
 
                 if (sign == "+")
                 {
@@ -230,6 +442,10 @@ namespace Calculator
                         result.Clear();
                         signs.Clear();
                         current.Clear();
+                    }
+                    else
+                    {
+                        totalNum = poppedNum / lastNum;
                     }
                 }
                 string finalNum = totalNum.ToString();
