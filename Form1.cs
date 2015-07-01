@@ -32,29 +32,6 @@ namespace Calculator
             output.Text += "1";
             current.Enqueue(1);
 
-            //// if there is already a number in result, it needs to be updated with new action being performed
-            //if (result.Count > 0)
-            //{
-            //    string ops = signs.Dequeue();
-            //    int holding = result.Dequeue();
-
-            //    if (ops == "+")
-            //    {
-            //        result.Enqueue((holding + 1));
-            //    }
-            //    if (ops == "-")
-            //    {
-            //        result.Enqueue((holding - 1));
-            //    }
-            //    if (ops == "*")
-            //    {
-            //        result.Enqueue((holding * 1));
-            //    }
-            //    if (ops == "/")
-            //    {
-            //        result.Enqueue((holding / 1));
-            //    }
-            //}
         }
 
         private void twoButton_Click(object sender, EventArgs e)
@@ -62,28 +39,6 @@ namespace Calculator
             output.Text += "2";
             current.Enqueue(2);
 
-            //if (result.Count > 0)
-            //{
-            //    string ops = signs.Dequeue();
-            //    int holding = result.Dequeue();
-
-            //    if (ops == "+")
-            //    {
-            //        result.Enqueue((holding + 2));
-            //    }
-            //    if (ops == "-")
-            //    {
-            //        result.Enqueue((holding - 1));
-            //    }
-            //    if (ops == "*")
-            //    {
-            //        result.Enqueue((holding * 1));
-            //    }
-            //    if (ops == "/")
-            //    {
-            //        result.Enqueue((holding / 1));
-            //    }
-            //}
         }
 
         private void threeButton_Click(object sender, EventArgs e)
