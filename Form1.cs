@@ -13,8 +13,8 @@ namespace Calculator
 {
     public partial class Form1 : Form
     {
-        Queue<int> current = new Queue<int>();    // to hold values being input one by one
-        Queue<int> result = new Queue<int>();       // holds only one value, the running total
+        Queue<double> current = new Queue<double>();    // to hold values being input one by one
+        Queue<double> result = new Queue<double>();       // holds only one value, the running total
         Queue<string> signs = new Queue<string>();      // to hold which sign is being used
         
         public Form1()
@@ -105,13 +105,13 @@ namespace Calculator
                     string received = "";
                     while (current.Count != 0)
                     {
-                        int getter = current.Dequeue();
+                        double getter = current.Dequeue();
                         received += getter.ToString();
                     }
 
                     int first = Convert.ToInt32(received);
 
-                    int res = result.Dequeue();
+                    double res = result.Dequeue();
                     string ops = signs.Peek();
 
                     if (ops == "+")
@@ -151,7 +151,7 @@ namespace Calculator
 
                 while (current.Count != 0)
                 {
-                    int getter = current.Dequeue();
+                    double getter = current.Dequeue();
                     received += getter.ToString();
                 }
 
@@ -176,13 +176,13 @@ namespace Calculator
                     string received = "";
                     while (current.Count != 0)
                     {
-                        int getter = current.Dequeue();
+                        double getter = current.Dequeue();
                         received += getter.ToString();
                     }
 
                     int first = Convert.ToInt32(received);
 
-                    int res = result.Dequeue();
+                    double res = result.Dequeue();
                     string ops = signs.Peek();
 
                     if (ops == "+")
@@ -221,7 +221,7 @@ namespace Calculator
 
                 while (current.Count != 0)
                 {
-                    int getter = current.Dequeue();
+                    double getter = current.Dequeue();
                     received += getter.ToString();
                 }
 
@@ -238,20 +238,18 @@ namespace Calculator
 
             if (result.Count > 0)
             {
-                 if (result.Count > 0)
-            {
                 if (current.Count > 0)
                 {
                     string received = "";
                     while (current.Count != 0)
                     {
-                        int getter = current.Dequeue();
+                        double getter = current.Dequeue();
                         received += getter.ToString();
                     }
 
                     int first = Convert.ToInt32(received);
 
-                    int res = result.Dequeue();
+                    double res = result.Dequeue();
                     string ops = signs.Peek();
 
                     if (ops == "+")
@@ -282,7 +280,7 @@ namespace Calculator
                         }
                     }
                 }
-                 }
+                 
             }
             else
             {
@@ -290,7 +288,7 @@ namespace Calculator
 
                 while (current.Count != 0)
                 {
-                    int getter = current.Dequeue();
+                    double getter = current.Dequeue();
                     received += getter.ToString();
                 }
 
@@ -314,67 +312,60 @@ namespace Calculator
         {
             output.Text += " / ";
             signs.Enqueue("/");
-           
-            foreach (string i in signs)
-            {
-                Console.Write("Sign is {0}", i);
-            }
-            
-                if (result.Count > 0)
+        
+            if (result.Count > 0)
                 {
-                    if (result.Count > 0)
+                if (current.Count > 0)
                     {
-                        if (current.Count > 0)
+                        string received = "";
+                        while (current.Count != 0)
                         {
-                            string received = "";
-                            while (current.Count != 0)
-                            {
-                                int getter = current.Dequeue();
-                                received += getter.ToString();
-                            }
+                            double getter = current.Dequeue();
+                            received += getter.ToString();
+                        }
 
-                            int first = Convert.ToInt32(received);
+                        int first = Convert.ToInt32(received);
 
-                            int res = result.Dequeue();
-                            string ops = signs.Peek();
+                        double res = result.Dequeue();
+                        string ops = signs.Peek();
 
-                            if (ops == "+")
+                        if (ops == "+")
+                        {
+                            result.Enqueue((res + first));
+                        }
+                        if (ops == "-")
+                        {
+                            result.Enqueue((res - first));
+                        }
+                        if (ops == "*")
+                        {
+                            result.Enqueue((res * first));
+                        }
+                        if (ops == "/")
+                        {
+                            // handle divide by zero errors
+                            if (first == 0)
                             {
-                                result.Enqueue((res + first));
+                                output.Text = "Error! You cannot divide by zero.";
+                                result.Clear();
+                                signs.Clear();
+                                current.Clear();
                             }
-                            if (ops == "-")
+                            else
                             {
-                                result.Enqueue((res - first));
-                            }
-                            if (ops == "*")
-                            {
-                                result.Enqueue((res * first));
-                            }
-                            if (ops == "/")
-                            {
-                                // handle divide by zero errors
-                                if (first == 0)
-                                {
-                                    output.Text = "Error! You cannot divide by zero.";
-                                    result.Clear();
-                                    signs.Clear();
-                                    current.Clear();
-                                }
-                                else
-                                {
-                                    result.Enqueue((res / first));
-                                }
+                                result.Enqueue((res / first));
                             }
                         }
                     }
-            }
+                    }
+            
                 else
                 {
                     string received = "";
 
                     while (current.Count != 0)
                     {
-                        int getter = current.Dequeue();
+                        double getter = current.Dequeue();
                         received += getter.ToString();
                     }
 
@@ -386,39 +377,24 @@ namespace Calculator
 
         private void equalButton_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Top of equal button function");
             // if there is no sign held in signs AND there is nothing in result, nothing should happen when equal is clicked
             if (signs.Count == 0)
             {
-                Console.WriteLine("Inside if");
-                foreach (string i in signs)
-                {
-                    Console.Write("Sign is {0}", i);
-                }
-                foreach (int j in result)
-                {
-                    Console.Write("Result is {0}", j);
-                }
+              
             }
             // if there is a sign, then need to calculate the final number 
             else
             {
-                Console.WriteLine("Inside else");
-                foreach (string i in signs)
-                {
-                    Console.Write("Sign is {0}", i);
-                }
-
                 if (result.Count > 0)
                 {
-                    int poppedNum = result.Dequeue();
-                    int totalNum = 0;
+                    double poppedNum = result.Dequeue();
+                    double totalNum = 0;
 
                     string received = "";
 
                     while (current.Count != 0)
                     {
-                        int getter = current.Dequeue();
+                        double getter = current.Dequeue();
                         received += getter.ToString();
                     }
 
