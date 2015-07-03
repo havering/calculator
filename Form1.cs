@@ -98,46 +98,50 @@ namespace Calculator
             // for either statement, the total of all the numbers held in current need to be strung together
             if (result.Count > 0)   
             {
-                string received = "";
-                while (current.Count != 0)
+                if (result.Count > 0)
+            {
+                if (current.Count > 0)
                 {
-                    int getter = current.Dequeue();
-                    received += getter.ToString();
-                }
-                // now there is a string of the numbers in order
-                // convert it back to an int
-                int first = Convert.ToInt32(received);
-
-                int res = result.Dequeue(); // don't need to empty queue because only one value is being added and removed at a time
-
-                // figure out what the last operation was and perform it on the two numbers being held by res and first
-                // this makes sure the running total in result is correct
-                string ops = signs.Dequeue();
-
-                if (ops == "+")
-                {
-                    result.Enqueue((res + first));
-                }
-                if (ops == "-")
-                {
-                    result.Enqueue((res - first));
-                }
-                if (ops == "*")
-                {
-                    result.Enqueue((res * first));
-                }
-                if (ops == "/")
-                {
-                    // handle divide by zero errors
-                    if (first == 0) {
-                        output.Text = "Error! You cannot divide by zero.";
-                        result.Clear();
-                        signs.Clear();
-                        current.Clear();
+                    string received = "";
+                    while (current.Count != 0)
+                    {
+                        int getter = current.Dequeue();
+                        received += getter.ToString();
                     }
-                    else {
-                        result.Enqueue((res / first));
+
+                    int first = Convert.ToInt32(received);
+
+                    int res = result.Dequeue();
+                    string ops = signs.Peek();
+
+                    if (ops == "+")
+                    {
+                        result.Enqueue((res + first));
                     }
+                    if (ops == "-")
+                    {
+                        result.Enqueue((res - first));
+                    }
+                    if (ops == "*")
+                    {
+                        result.Enqueue((res * first));
+                    }
+                    if (ops == "/")
+                    {
+                        // handle divide by zero errors
+                        if (first == 0)
+                        {
+                            output.Text = "Error! You cannot divide by zero.";
+                            result.Clear();
+                            signs.Clear();
+                            current.Clear();
+                        }
+                        else
+                        {
+                            result.Enqueue((res / first));
+                        }
+                    }
+                }
                 }
             }
             
@@ -157,52 +161,59 @@ namespace Calculator
             }
         }
 
+
         private void minButton_Click(object sender, EventArgs e)
         {
             output.Text += " - ";
             signs.Enqueue("-");
 
+            // if there is both a value in result and in count, then operations need to be performed
+            // otherwise, treat it as the first entry and only current needs to be evaluated
             if (result.Count > 0)
             {
-                string received = "";
-                while (current.Count != 0)
+                if (current.Count > 0)
                 {
-                    int getter = current.Dequeue();
-                    received += getter.ToString();
-                }
-
-                int first = Convert.ToInt32(received);
-
-                int res = result.Dequeue(); 
-                string ops = signs.Dequeue();
-
-                if (ops == "+")
-                {
-                    result.Enqueue((res + first));
-                }
-                if (ops == "-")
-                {
-                    result.Enqueue((res - first));
-                }
-                if (ops == "*")
-                {
-                    result.Enqueue((res * first));
-                }
-                if (ops == "/")
-                {
-                    // handle divide by zero errors
-                    if (first == 0)
+                    string received = "";
+                    while (current.Count != 0)
                     {
-                        output.Text = "Error! You cannot divide by zero.";
-                        result.Clear();
-                        signs.Clear();
-                        current.Clear();
+                        int getter = current.Dequeue();
+                        received += getter.ToString();
                     }
-                    else
+
+                    int first = Convert.ToInt32(received);
+
+                    int res = result.Dequeue();
+                    string ops = signs.Peek();
+
+                    if (ops == "+")
                     {
-                        result.Enqueue((res / first));
+                        result.Enqueue((res + first));
+                    }
+                    if (ops == "-")
+                    {
+                        result.Enqueue((res - first));
+                    }
+                    if (ops == "*")
+                    {
+                        result.Enqueue((res * first));
+                    }
+                    if (ops == "/")
+                    {
+                        // handle divide by zero errors
+                        if (first == 0)
+                        {
+                            output.Text = "Error! You cannot divide by zero.";
+                            result.Clear();
+                            signs.Clear();
+                            current.Clear();
+                        }
+                        else
+                        {
+                            result.Enqueue((res / first));
+                        }
                     }
                 }
+            
             }
             else
             {
@@ -227,45 +238,51 @@ namespace Calculator
 
             if (result.Count > 0)
             {
-                string received = "";
-                while (current.Count != 0)
+                 if (result.Count > 0)
+            {
+                if (current.Count > 0)
                 {
-                    int getter = current.Dequeue();
-                    received += getter.ToString();
-                }
-
-                int first = Convert.ToInt32(received);
-
-                int res = result.Dequeue(); 
-                string ops = signs.Dequeue();
-
-                if (ops == "+")
-                {
-                    result.Enqueue((res + first));
-                }
-                if (ops == "-")
-                {
-                    result.Enqueue((res - first));
-                }
-                if (ops == "*")
-                {
-                    result.Enqueue((res * first));
-                }
-                if (ops == "/")
-                {
-                    // handle divide by zero errors
-                    if (first == 0)
+                    string received = "";
+                    while (current.Count != 0)
                     {
-                        output.Text = "Error! You cannot divide by zero.";
-                        result.Clear();
-                        signs.Clear();
-                        current.Clear();
+                        int getter = current.Dequeue();
+                        received += getter.ToString();
                     }
-                    else
+
+                    int first = Convert.ToInt32(received);
+
+                    int res = result.Dequeue();
+                    string ops = signs.Peek();
+
+                    if (ops == "+")
                     {
-                        result.Enqueue((res / first));
+                        result.Enqueue((res + first));
+                    }
+                    if (ops == "-")
+                    {
+                        result.Enqueue((res - first));
+                    }
+                    if (ops == "*")
+                    {
+                        result.Enqueue((res * first));
+                    }
+                    if (ops == "/")
+                    {
+                        // handle divide by zero errors
+                        if (first == 0)
+                        {
+                            output.Text = "Error! You cannot divide by zero.";
+                            result.Clear();
+                            signs.Clear();
+                            current.Clear();
+                        }
+                        else
+                        {
+                            result.Enqueue((res / first));
+                        }
                     }
                 }
+                 }
             }
             else
             {
@@ -295,122 +312,157 @@ namespace Calculator
 
         private void divButton_Click(object sender, EventArgs e)
         {
-            output.Text = " / ";
+            output.Text += " / ";
             signs.Enqueue("/");
-
-            if (result.Count > 0)
+           
+            foreach (string i in signs)
             {
-                string received = "";
-                while (current.Count != 0)
-                {
-                    int getter = current.Dequeue();
-                    received += getter.ToString();
-                }
-
-                int first = Convert.ToInt32(received);
-
-                int res = result.Dequeue(); 
-                string ops = signs.Dequeue();
-
-                if (ops == "+")
-                {
-                    result.Enqueue((res + first));
-                }
-                if (ops == "-")
-                {
-                    result.Enqueue((res - first));
-                }
-                if (ops == "*")
-                {
-                    result.Enqueue((res * first));
-                }
-                if (ops == "/")
-                {
-                    // handle divide by zero errors
-                    if (first == 0)
-                    {
-                        output.Text = "Error! You cannot divide by zero.";
-                        result.Clear();
-                        signs.Clear();
-                        current.Clear();
-                    }
-                    else
-                    {
-                        result.Enqueue((res / first));
-                    }
-                }
+                Console.Write("Sign is {0}", i);
             }
-            else
-            {
-                string received = "";
-
-                while (current.Count != 0)
+            
+                if (result.Count > 0)
                 {
-                    int getter = current.Dequeue();
-                    received += getter.ToString();
-                }
+                    if (result.Count > 0)
+                    {
+                        if (current.Count > 0)
+                        {
+                            string received = "";
+                            while (current.Count != 0)
+                            {
+                                int getter = current.Dequeue();
+                                received += getter.ToString();
+                            }
 
-                int first = Convert.ToInt32(received);
+                            int first = Convert.ToInt32(received);
 
-                result.Enqueue(first);
+                            int res = result.Dequeue();
+                            string ops = signs.Peek();
+
+                            if (ops == "+")
+                            {
+                                result.Enqueue((res + first));
+                            }
+                            if (ops == "-")
+                            {
+                                result.Enqueue((res - first));
+                            }
+                            if (ops == "*")
+                            {
+                                result.Enqueue((res * first));
+                            }
+                            if (ops == "/")
+                            {
+                                // handle divide by zero errors
+                                if (first == 0)
+                                {
+                                    output.Text = "Error! You cannot divide by zero.";
+                                    result.Clear();
+                                    signs.Clear();
+                                    current.Clear();
+                                }
+                                else
+                                {
+                                    result.Enqueue((res / first));
+                                }
+                            }
+                        }
+                    }
             }
+                else
+                {
+                    string received = "";
+
+                    while (current.Count != 0)
+                    {
+                        int getter = current.Dequeue();
+                        received += getter.ToString();
+                    }
+
+                    int first = Convert.ToInt32(received);
+
+                    result.Enqueue(first);
+                }
         }
 
         private void equalButton_Click(object sender, EventArgs e)
         {
-            if (result.Count > 0)
+            Console.WriteLine("Top of equal button function");
+            // if there is no sign held in signs AND there is nothing in result, nothing should happen when equal is clicked
+            if (signs.Count == 0)
             {
-                int poppedNum = result.Dequeue();
-                int totalNum = 0;
-
-                string received = "";
-
-                while (current.Count != 0)
+                Console.WriteLine("Inside if");
+                foreach (string i in signs)
                 {
-                    int getter = current.Dequeue();
-                    received += getter.ToString();
+                    Console.Write("Sign is {0}", i);
                 }
-
-                int lastNum = Convert.ToInt32(received);
-
-                string sign = signs.Dequeue();
-
-                if (sign == "+")
+                foreach (int j in result)
                 {
-                    totalNum = poppedNum + lastNum;
+                    Console.Write("Result is {0}", j);
                 }
-                if (sign == "-")
-                {
-                    totalNum = poppedNum - lastNum;
-                }
-
-                if (sign == "*")
-                {
-                    totalNum = poppedNum * lastNum;
-                }
-
-                if (sign == "/")
-                {
-                    if (lastNum == 0)
-                    {
-                        output.Text = "Error! You cannot divide by zero.";
-                        result.Clear();
-                        signs.Clear();
-                        current.Clear();
-                    }
-                    else
-                    {
-                        totalNum = poppedNum / lastNum;
-                    }
-                }
-                string finalNum = totalNum.ToString();
-
-                output.Text = finalNum;
-
-                // send it back to result and current in case the user tries to do more with it
-                result.Enqueue(totalNum);
-                current.Enqueue(totalNum);
             }
+            // if there is a sign, then need to calculate the final number 
+            else
+            {
+                Console.WriteLine("Inside else");
+                foreach (string i in signs)
+                {
+                    Console.Write("Sign is {0}", i);
+                }
+
+                if (result.Count > 0)
+                {
+                    int poppedNum = result.Dequeue();
+                    int totalNum = 0;
+
+                    string received = "";
+
+                    while (current.Count != 0)
+                    {
+                        int getter = current.Dequeue();
+                        received += getter.ToString();
+                    }
+
+                    int lastNum = Convert.ToInt32(received);
+
+                    string sign = signs.Dequeue();
+
+                    if (sign == "+")
+                    {
+                        totalNum = poppedNum + lastNum;
+                    }
+                    if (sign == "-")
+                    {
+                        totalNum = poppedNum - lastNum;
+                    }
+
+                    if (sign == "*")
+                    {
+                        totalNum = poppedNum * lastNum;
+                    }
+
+                    if (sign == "/")
+                    {
+                        if (lastNum == 0)
+                        {
+                            output.Text = "Error! You cannot divide by zero.";
+                            result.Clear();
+                            signs.Clear();
+                            current.Clear();
+                        }
+                        else
+                        {
+                            totalNum = poppedNum / lastNum;
+                        }
+                    }
+                    string finalNum = totalNum.ToString();
+
+                    output.Text = finalNum;
+
+                    // send it back to result in case the user tries to do more with it
+                    result.Enqueue(totalNum);
+                }
+            }
+            
         }
     }
 }
