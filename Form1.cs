@@ -1,7 +1,4 @@
-﻿/* TO DO */
-
-//       Also there's some logic error with the divide by zero shiz
-
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -116,6 +113,8 @@ namespace Calculator
                     double res = result.Dequeue();
                     string ops = signs.Peek();
 
+                    // if there are more than one sign, then the sign just used should be dequeued
+                    // if not, then it should stay until the second number is entered for it to evaluate against
                     if (ops == "+")
                     {
                         result.Enqueue((res + first));
@@ -285,7 +284,7 @@ namespace Calculator
 
                     double res = result.Dequeue();
                     string ops = signs.Peek();
-
+                                       
                     if (ops == "+")
                     {
                         result.Enqueue((res + first));
@@ -378,9 +377,7 @@ namespace Calculator
 
                         double res = result.Dequeue();
                         string ops = signs.Peek();
-
-                        // if there are more than one sign, then the sign just used should be dequeued
-                        // if not, then it should stay until the second number is entered for it to evaluate against
+                                           
                         if (ops == "+")
                         {
                             result.Enqueue((res + first));
@@ -469,23 +466,54 @@ namespace Calculator
                     int lastNum = Convert.ToInt32(received);
 
                     string sign = signs.Dequeue();
-
+                    string finalNum;
+                          
+                    // to enable divide by zero error to display, output and enqueuing happens within the if statements
+                    // otherwise the error will be immediately overwritten by finalNum, which would have no value
                     if (sign == "+")
                     {
                         totalNum = poppedNum + lastNum;
+
+                        finalNum = totalNum.ToString();
+                        output.Text = finalNum;
+
+                        // send it back to result in case the user tries to do more with it
+                        result.Enqueue(totalNum);
+
+                        // clear signs so that none are left over in the next round of equations
+                        signs.Clear();
                     }
                     if (sign == "-")
                     {
                         totalNum = poppedNum - lastNum;
+
+                        finalNum = totalNum.ToString();
+                        output.Text = finalNum;
+
+                        // send it back to result in case the user tries to do more with it
+                        result.Enqueue(totalNum);
+
+                        // clear signs so that none are left over in the next round of equations
+                        signs.Clear();
                     }
 
                     if (sign == "*")
                     {
                         totalNum = poppedNum * lastNum;
+
+                        finalNum = totalNum.ToString();
+                        output.Text = finalNum;
+
+                        // send it back to result in case the user tries to do more with it
+                        result.Enqueue(totalNum);
+
+                        // clear signs so that none are left over in the next round of equations
+                        signs.Clear();
                     }
 
                     if (sign == "/")
                     {
+                        
                         if (lastNum == 0)
                         {
                             output.Text = "Error! You cannot divide by zero.";
@@ -496,17 +524,19 @@ namespace Calculator
                         else
                         {
                             totalNum = poppedNum / lastNum;
+
+                            finalNum = totalNum.ToString();
+                            output.Text = finalNum;
+
+                            // send it back to result in case the user tries to do more with it
+                            result.Enqueue(totalNum);
+
+                            // clear signs so that none are left over in the next round of equations
+                            signs.Clear();                            
                         }
                     }
-                    string finalNum = totalNum.ToString();
-
-                    output.Text = finalNum;
-
-                    // send it back to result in case the user tries to do more with it
-                    result.Enqueue(totalNum);
-
-                    // clear signs so that none are left over in the next round of equations
-                    signs.Clear();
+                    
+                
                 }
             }
             
