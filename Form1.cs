@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* TO DO */
+
+//       Also there's some logic error with the divide by zero shiz
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -98,8 +102,6 @@ namespace Calculator
             // for either statement, the total of all the numbers held in current need to be strung together
             if (result.Count > 0)   
             {
-                if (result.Count > 0)
-            {
                 if (current.Count > 0)
                 {
                     string received = "";
@@ -117,14 +119,26 @@ namespace Calculator
                     if (ops == "+")
                     {
                         result.Enqueue((res + first));
+                        if (signs.Count > 1)
+                        {
+                            signs.Dequeue();
+                        }
                     }
                     if (ops == "-")
                     {
                         result.Enqueue((res - first));
+                        if (signs.Count > 1)
+                        {
+                            signs.Dequeue();
+                        }
                     }
                     if (ops == "*")
                     {
                         result.Enqueue((res * first));
+                        if (signs.Count > 1)
+                        {
+                            signs.Dequeue();
+                        }
                     }
                     if (ops == "/")
                     {
@@ -139,9 +153,13 @@ namespace Calculator
                         else
                         {
                             result.Enqueue((res / first));
+                            if (signs.Count > 1)
+                            {
+                                signs.Dequeue();
+                            }
                         }
                     }
-                }
+                
                 }
             }
             
@@ -188,14 +206,26 @@ namespace Calculator
                     if (ops == "+")
                     {
                         result.Enqueue((res + first));
+                        if (signs.Count > 1)
+                        {
+                            signs.Dequeue();
+                        }
                     }
                     if (ops == "-")
                     {
                         result.Enqueue((res - first));
+                        if (signs.Count > 1)
+                        {
+                            signs.Dequeue();
+                        }
                     }
                     if (ops == "*")
                     {
                         result.Enqueue((res * first));
+                        if (signs.Count > 1)
+                        {
+                            signs.Dequeue();
+                        }
                     }
                     if (ops == "/")
                     {
@@ -210,6 +240,10 @@ namespace Calculator
                         else
                         {
                             result.Enqueue((res / first));
+                            if (signs.Count > 1)
+                            {
+                                signs.Dequeue();
+                            }
                         }
                     }
                 }
@@ -255,14 +289,26 @@ namespace Calculator
                     if (ops == "+")
                     {
                         result.Enqueue((res + first));
+                        if (signs.Count > 1)
+                        {
+                            signs.Dequeue();
+                        }
                     }
                     if (ops == "-")
                     {
                         result.Enqueue((res - first));
+                        if (signs.Count > 1)
+                        {
+                            signs.Dequeue();
+                        }
                     }
                     if (ops == "*")
                     {
                         result.Enqueue((res * first));
+                        if (signs.Count > 1)
+                        {
+                            signs.Dequeue();
+                        }
                     }
                     if (ops == "/")
                     {
@@ -277,6 +323,10 @@ namespace Calculator
                         else
                         {
                             result.Enqueue((res / first));
+                            if (signs.Count > 1)
+                            {
+                                signs.Dequeue();
+                            }
                         }
                     }
                 }
@@ -329,17 +379,31 @@ namespace Calculator
                         double res = result.Dequeue();
                         string ops = signs.Peek();
 
+                        // if there are more than one sign, then the sign just used should be dequeued
+                        // if not, then it should stay until the second number is entered for it to evaluate against
                         if (ops == "+")
                         {
                             result.Enqueue((res + first));
+                            if (signs.Count > 1)
+                            {
+                                signs.Dequeue();
+                            }
                         }
                         if (ops == "-")
                         {
                             result.Enqueue((res - first));
+                            if (signs.Count > 1)
+                            {
+                                signs.Dequeue();
+                            }
                         }
                         if (ops == "*")
                         {
                             result.Enqueue((res * first));
+                            if (signs.Count > 1)
+                            {
+                                signs.Dequeue();
+                            }
                         }
                         if (ops == "/")
                         {
@@ -354,6 +418,10 @@ namespace Calculator
                             else
                             {
                                 result.Enqueue((res / first));
+                                if (signs.Count > 1)
+                                {
+                                    signs.Dequeue();
+                                }
                             }
                         }
                     }
@@ -436,6 +504,9 @@ namespace Calculator
 
                     // send it back to result in case the user tries to do more with it
                     result.Enqueue(totalNum);
+
+                    // clear signs so that none are left over in the next round of equations
+                    signs.Clear();
                 }
             }
             
